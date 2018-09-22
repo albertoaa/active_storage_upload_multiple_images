@@ -24,7 +24,12 @@ class PostsController < ApplicationController
   # POST /posts
   # POST /posts.json
   def create
-    @post = Post.new(post_params)
+    @post = Post.new
+    @post.title = params[:post][:title]
+    @post.body = params[:post][:body]
+    params[:post][:images].each do |image|
+      @post.images << Image.new(image: image)
+    end
 
     respond_to do |format|
       if @post.save
